@@ -1,0 +1,848 @@
+// frontend\painel\dashboard\admin\admin.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Importando uma fonte moderna */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            background: linear-gradient(to right, #0056b3, #007BFF);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #admin-info {
+            flex-grow: 1;
+            text-align: left;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+
+        #logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-right: 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        #logout-button:hover {
+            background-color: #c82333;
+        }
+
+        /* Layout do Dashboard */
+        main {
+            margin-top: 80px;
+            width: 90%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Containers do Dashboard */
+        .container {
+            background: white;
+            width: 100%;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            min-height: 180px; /* Garante um bom tamanho */
+        }
+
+        /* Efeito Hover nos Containers */
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            main {
+                width: 95%;
+            }
+
+            .container {
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div id="admin-info">👑 ADMIN - <span id="admin-nome"></span></div>
+        <button id="logout-button">Logout</button>
+    </header>
+
+    <main>
+        <!-- Pedidos em Aberto -->
+        <section id="pedidos-container" class="container">
+            <h2>📋 Pedidos em Aberto</h2>
+            <div id="pedidos-content">Carregando pedidos...</div>
+        </section>
+
+        <!-- Tabela Principal -->
+        <section id="tabela-container" class="container">
+            <h2>📊 Tabela de Dados</h2>
+            <div id="tabela-content">Carregando...</div>
+        </section>
+
+        <!-- Detalhes -->
+        <section id="detalhes-container" class="container">
+            <h2>🔍 Detalhes</h2>
+            <div id="detalhes-content">Selecione um pedido...</div>
+        </section>
+
+        <!-- Estatísticas -->
+        <section id="estatisticas-container" class="container">
+            <h2>📈 Estatísticas</h2>
+            <div id="estatisticas-content">Carregando estatísticas...</div>
+        </section>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+
+
+
+// frontend\painel\dashboard\admin\admin.js
+
+const pedidosContainer = document.getElementById("pedidos-container");
+
+async function carregarPedidos() {
+    console.log("📂 Carregando módulo: pedidos_admin");
+
+    try {
+        // 🔥 Carrega o HTML do módulo
+        const response = await fetch("dashboard/admin/modules/pedidos_admin.html"); // Verifique se esse é o caminho correto
+        if (!response.ok) throw new Error("Módulo pedidos_admin não encontrado!");
+
+        const moduloHtml = await response.text();
+        pedidosContainer.innerHTML = moduloHtml;
+
+        console.log("✅ HTML do módulo pedidos_admin carregado!");
+
+        // 🔥 Carrega o CSS do módulo (se ainda não estiver carregado)
+        if (!document.querySelector("link[href='dashboard/admin/modules/pedidos_admin.css']")) {
+            const css = document.createElement("link");
+            css.rel = "stylesheet";
+            css.href = "dashboard/admin/modules/pedidos_admin.css";
+            document.head.appendChild(css);
+            console.log("🎨 CSS do módulo pedidos_admin carregado!");
+        } else {
+            console.log("🎨 CSS do módulo já estava carregado.");
+        }
+
+        // 🔥 Carrega o JS do módulo (se ainda não estiver carregado)
+        if (!document.querySelector("script[src='dashboard/admin/modules/pedidos_admin.js']")) {
+            console.log("📜 Carregando script do módulo pedidos_admin...");
+            const script = document.createElement("script");
+            script.src = "dashboard/admin/modules/pedidos_admin.js";
+            script.defer = true;
+
+            // ✅ Aguarda o carregamento do script antes de seguir
+            script.onload = () => console.log("✅ JS do módulo pedidos_admin carregado!");
+            script.onerror = () => console.error("❌ Erro ao carregar pedidos_admin.js!");
+
+            document.body.appendChild(script);
+        } else {
+            console.log("📜 JS do módulo já estava carregado.");
+        }
+
+    } catch (error) {
+        console.error("❌ Erro ao carregar pedidos_admin:", error);
+        pedidosContainer.innerHTML = `<p style="color: red;">Erro ao carregar pedidos.</p>`;
+    }
+}
+
+// 🔥 Chama a função ao carregar o dashboard
+carregarPedidos();
+
+
+
+// frontend\painel\dashboard\admin\modules\pedidos_admin.css
+
+/* Estilização da Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status */
+.status {
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.status.pending {
+    background-color: #ffc107;
+    color: black;
+}
+
+.status.completed {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Botões */
+.btn {
+    border: none;
+    background-color: #0056b3;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #004494;
+}
+
+
+
+// frontend\painel\dashboard\admin\modules\pedidos_admin.html
+
+<h2>📋 Pedidos em Aberto</h2>
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Dentista (ID)</th>
+            <th>Paciente (ID)</th>
+            <th>Data do Pagamento</th>
+            <th>Status</th>
+            <th>Ficha Técnica</th>
+            <th>Arquivo 3D</th>
+            <th>Vídeo Conferência</th>
+        </tr>
+    </thead>
+    <tbody id="pedidos-admin">
+        <!-- Os pedidos serão carregados dinamicamente pelo JavaScript -->
+    </tbody>
+</table>
+<script src="dashboard/admin/modules/pedidos_admin.js" defer></script>
+
+
+
+
+// frontend\painel\dashboard\admin\modules\pedidos_admin.js
+
+document.addEventListener("DOMContentLoaded", async () => {
+    console.log("[Pedidos Admin] 🔄 Iniciando carregamento de pedidos em aberto...");
+
+    const pedidosContainer = document.getElementById("pedidos-content");
+    const pedidosTableBody = document.getElementById("pedidos-admin");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        console.error("❌ Usuário não autenticado! Redirecionando para login.");
+        window.location.href = "/login.html";
+        return;
+    }
+
+    // ✅ Garante que os elementos HTML necessários existem antes de prosseguir
+    if (!pedidosContainer || !pedidosTableBody) {
+        console.error("❌ Elementos HTML não encontrados! Verifique o ID dos elementos.");
+        return;
+    }
+
+    try {
+        console.log("🔍 Enviando requisição para buscar pedidos em aberto...");
+        const response = await fetch("http://localhost:5000/pedidos/abertos", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao carregar pedidos. Status: ${response.status}`);
+        }
+
+        const pedidos = await response.json();
+        console.log("✅ Pedidos recebidos:", pedidos);
+
+        // ✅ Se não houver pedidos, exibe uma mensagem amigável
+        if (pedidos.length === 0) {
+            pedidosContainer.innerHTML = `<p style="text-align: center; font-weight: bold;">Nenhum pedido em aberto.</p>`;
+            return;
+        }
+
+        // ✅ Limpa a tabela antes de inserir os novos dados
+        pedidosTableBody.innerHTML = "";
+
+        pedidos.forEach(pedido => {
+            console.log(`📌 Adicionando pedido ID ${pedido.id}...`);
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${pedido.dentista_id}</td>
+                <td>${pedido.paciente_id}</td>
+                <td>${new Date(pedido.data_pagamento).toLocaleDateString()}</td>
+                <td>${pedido.status}</td>
+                <td>
+                    <button class="btn ficha-btn" data-info='${JSON.stringify(pedido.ficha_tecnica || {})}'>
+                        📄 Ver Ficha
+                    </button>
+                </td>
+                <td>
+                    ${pedido.arquivo_3d ? `<a href="${pedido.arquivo_3d}" target="_blank" class="btn">📁 Baixar</a>` : "❌ Sem Arquivo"}
+                </td>
+                <td>${pedido.video_conferencia ? "✅ Sim" : "❌ Não"}</td>
+            `;
+            pedidosTableBody.appendChild(row);
+        });
+
+        console.log("✅ Tabela preenchida com sucesso!");
+
+        // ✅ Evento para abrir detalhes da ficha técnica (com validação)
+        document.querySelectorAll(".ficha-btn").forEach(button => {
+            button.addEventListener("click", (event) => {
+                try {
+                    const fichaData = JSON.parse(event.target.getAttribute("data-info"));
+                    if (Object.keys(fichaData).length === 0) {
+                        alert("📋 Ficha Técnica não disponível.");
+                        return;
+                    }
+
+                    alert(`📋 Ficha Técnica:\n\n🛠 Procedimento: ${fichaData.procedimento || "N/A"}\n📦 Quantidade: ${fichaData.quantidade || "N/A"}`);
+                } catch (err) {
+                    console.error("❌ Erro ao exibir ficha técnica:", err);
+                    alert("❌ Erro ao carregar detalhes da ficha técnica.");
+                }
+            });
+        });
+
+    } catch (error) {
+        console.error("❌ Erro ao carregar pedidos:", error);
+        pedidosContainer.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar pedidos.</p>`;
+    }
+});
+
+
+
+// frontend\painel\dashboard\dentista\dentista.css
+
+
+
+
+// frontend\painel\dashboard\dentista\dentista.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Dentista</title>
+    <style>
+        body {
+            background-color: #047857; /* Verde escuro */
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 32px;
+        }
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🦷 Painel do Dentista</h1>
+    <p>Bem-vindo ao painel do <strong>DENTISTA</strong>.</p>
+</body>
+</html>
+
+
+
+// frontend\painel\dashboard\dentista\dentista.js
+
+
+
+
+// frontend\painel\login\auth.js
+
+document.addEventListener("DOMContentLoaded", async () => {
+    console.log("[Auth] Verificando autenticação...");
+
+    const loginContainer = document.getElementById("login-container");
+    const dashboardContainer = document.getElementById("dashboard-container");
+    const header = document.getElementById("titulo");
+
+    if (!loginContainer || !dashboardContainer || !header) {
+        console.error("❌ Erro: Elementos do DOM não encontrados!");
+        return;
+    }
+
+    // 🔥 Verifica se o usuário está logado pelo token no localStorage
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (token && user) {
+        console.log("✅ Usuário autenticado:", user);
+
+        // Define o caminho do dashboard e do script correspondente
+        const dashboardPath = user.is_admin ? "dashboard/admin/admin.html" : "dashboard/dentista/dentista.html";
+        const scriptPath = user.is_admin ? "dashboard/admin/admin.js" : "dashboard/dentista/dentista.js";
+
+        console.log(`📂 Carregando dashboard: ${dashboardPath}`);
+
+        try {
+            const response = await fetch(dashboardPath);
+            if (!response.ok) throw new Error("Dashboard não encontrado!");
+
+            const dashboardHtml = await response.text();
+            dashboardContainer.innerHTML = dashboardHtml;
+
+            // 🔥 Carrega dinamicamente o JS do dashboard
+            const dashboardScript = document.createElement("script");
+            dashboardScript.src = scriptPath;
+            dashboardScript.onload = () => console.log(`✅ [Auth] ${scriptPath} carregado!`);
+            document.body.appendChild(dashboardScript);
+            
+        } catch (error) {
+            console.error("❌ Erro ao carregar o dashboard:", error);
+            dashboardContainer.innerHTML = `<p style="color: red;">Erro ao carregar o dashboard.</p>`;
+        }
+
+        // 🔥 Atualiza o header com os dados do usuário
+        header.innerHTML = `
+            <span>${user.is_admin ? "👑 ADMIN" : "🦷 DENTISTA"} - Sr. ${user.nome} (ID: ${user.id})</span>
+            ${user.is_verified ? '✅ Credenciado' : '❌ Não Credenciado'}
+            <button id="logout-button">Logout</button>
+        `;
+
+        // Esconde login e mostra dashboard
+        loginContainer.style.display = "none";
+        dashboardContainer.style.display = "block";
+
+        // 🔹 Logout (quando o usuário clica em "Sair")
+        document.getElementById("logout-button").addEventListener("click", () => {
+            console.log("🚪 Logout realizado!");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            location.href = location.href; // 🔄 Recarrega a página
+        });
+
+    } else {
+        console.warn("⚠️ Nenhum usuário logado.");
+
+        // Mostra o login e esconde o dashboard
+        loginContainer.style.display = "block";
+        dashboardContainer.style.display = "none";
+    }
+});
+
+
+
+// frontend\painel\login\login.css
+
+/* Estilo específico para o Login */
+#login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+.content-box {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 24px;
+    color: #1e3c72;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    background: #1e3c72;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #16345e;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}
+
+
+
+// frontend\painel\login\login.html
+
+<div class="container" id="login-container">
+    <div class="content-box">
+        <h1>Amazon Align</h1>
+        <h2>Login 2</h2>
+        <form id="login-form" autocomplete="off">
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" value="Pedro01@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" value="123" required>
+            </div>
+            <button type="submit" class="btn-primary">Entrar</button>
+            <p id="error-message" class="error-message">E-mail ou senha inválidos.</p>
+        </form>
+    </div>
+</div>
+
+
+
+// frontend\painel\login\login.js
+
+console.log("[Login] Iniciando login.js...");
+
+setTimeout(() => {
+    console.log("[Login] Tentando obter os elementos do DOM...");
+
+    const loginContainer = document.getElementById("login-container");
+    const dashboardContainer = document.getElementById("dashboard-container");
+
+    if (!loginContainer || !dashboardContainer) {
+        console.error("❌ loginContainer ou dashboardContainer não encontrados!");
+        return;
+    }
+
+    console.log("✅ Containers encontrados!", { loginContainer, dashboardContainer });
+
+    const loginForm = document.getElementById("login-form");
+    if (!loginForm) {
+        console.error("❌ Formulário de login não encontrado!");
+        return;
+    }
+
+    console.log("✅ Formulário de login encontrado!");
+
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        console.log("📤 Evento de submit acionado!");
+
+        const emailInput = document.getElementById("email");
+        const senhaInput = document.getElementById("senha");
+
+        if (!emailInput || !senhaInput) {
+            console.error("❌ Campos de e-mail ou senha não encontrados no DOM!");
+            return;
+        }
+
+        const email = emailInput.value.trim().toLowerCase();
+        const senha = senhaInput.value.trim();
+
+        console.log(`🔑 Tentando login com:\n   - Email: ${email}\n   - Senha: ${senha}`);
+
+        try {
+            console.log("🌍 Enviando requisição para o servidor...");
+            const response = await fetch("http://localhost:5000/dentistas/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, senha })
+            });
+
+            console.log("🔄 Resposta recebida do servidor.");
+            const data = await response.json();
+
+            console.log("📥 Resposta JSON:", data);
+
+            if (!response.ok) {
+                console.error(`❌ Erro no login: ${data.message || "Erro desconhecido"}`);
+                document.getElementById("error-message").textContent = data.message;
+                document.getElementById("error-message").style.display = "block";
+                return;
+            }
+
+            console.log("✅ Login bem-sucedido!");
+            console.log("🛠️ Salvando token no localStorage...");
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.dentista));
+
+            console.log("🔀 Ocultando login e mostrando o dashboard...");
+            loginContainer.style.display = "none";  // Esconde o login
+            dashboardContainer.style.display = "block"; // Mostra o dashboard
+             location.href = location.href;
+
+        } catch (error) {
+            console.error("❌ Erro ao tentar logar:", error);
+            document.getElementById("error-message").textContent = "Erro ao conectar ao servidor.";
+            document.getElementById("error-message").style.display = "block";
+        }
+    });
+
+    console.log("📌 Event listener de submit adicionado ao formulário!");
+}, 1000);
+
+
+
+// frontend\painel\painel.css
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilização do corpo da página */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    min-width: 320px;
+    padding-top: 100px; /* Compensação para o header fixo */
+}
+
+/* Cabeçalho fixo aprimorado */
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-height: 80px;
+}
+
+/* Estilo das seções (Login e Dashboard) */
+main {
+    width: 90%;
+    max-width: 450px;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 20px;
+    min-height: 320px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Melhorando a responsividade */
+@media (max-width: 768px) {
+    body {
+        padding-top: 80px;
+    }
+
+    header {
+        font-size: 20px;
+        padding: 15px 0;
+    }
+
+    main {
+        width: 95%;
+        max-width: 350px;
+        padding: 20px;
+    }
+}
+
+
+
+// frontend\painel\painel.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Amazon Align</title>
+    <link rel="stylesheet" href="painel.css">
+    <link rel="stylesheet" href="login/login.css"> <!-- Estilo do login -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo="> 
+</head>
+<body>
+    <header>
+        <h1 id="titulo">Bem-vindo!</h1>
+    </header>
+
+<main id="main-content">
+
+    </section>
+    <section id="login-container" class="container">
+        <h2>Login 1</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="E-mail">
+            <input type="password" id="senha" placeholder="Senha">
+            <button type="submit">Entrar</button>
+            <p id="error-message" class="error-message" style="display: none;">E-mail ou senha inválidos.</p>
+        </form>
+    </section>
+
+    <!-- Dashboard (inicialmente oculto) -->
+    <section id="dashboard-container" class="container" >
+        <h2>Dashboard 1</h2>
+        <p> painel! 1</p>
+    </section>
+</main>
+
+<script src="login/auth.js"></script>
+
+<script>
+        // Função para carregar o login real dinamicamente
+ async function carregarLogin() {
+    console.log("🔄 Carregando login...");
+
+    const response = await fetch("login/login.html");
+    const loginHtml = await response.text();
+
+    // Obtém o login-container para substituir apenas ele
+    const loginContainer = document.getElementById("login-container");
+
+    if (!loginContainer) {
+        console.error("❌ login-container não encontrado!");
+        return;
+    }
+
+    loginContainer.innerHTML = loginHtml; // 🔥 Substitui apenas o login-container
+
+    console.log("✅ Login carregado com sucesso!");
+
+    // 🔥 Agora que o login foi carregado, adicionamos os scripts necessários
+    const authScript = document.createElement("script");
+    authScript.src = "login/auth.js";
+    document.body.appendChild(authScript);
+
+    const loginScript = document.createElement("script");
+    loginScript.src = "login/login.js";
+    document.body.appendChild(loginScript);
+}
+
+// 🔥 Carregar login ao iniciar a página
+carregarLogin();
+
+    </script>
+
+    <script src="painel.js"></script>
+</html>
+
+
+
+// frontend\painel\painel.js
+
+    console.log("[painel] 🔄 Iniciando login.js...");

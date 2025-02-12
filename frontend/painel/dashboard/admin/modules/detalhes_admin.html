@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Dentista</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Marcador de rolagem invisível -->
+        <div id="marcador-detalhes" class="marcador-detalhes"></div>
+        <h2>🔍 <strong>Detalhes do Dentista</strong></h2>
+
+        <!-- Seleção do Dentista -->
+        <div class="dentista-selecao">
+            <label for="dentista-select">Escolha um dentista:</label>
+            <select id="dentista-select">
+                <option value="">Selecione...</option>
+            </select>
+            <button id="carregar-detalhes" class="btn">📄 Carregar Detalhes</button>
+        </div>
+
+        <!-- Exibição dos Detalhes -->
+        <div id="detalhes-dentista" class="detalhes-card" style="display: none;">
+            <p><strong>Nome:</strong> <span id="dentista-nome"></span></p>
+            <p><strong>Email:</strong> <span id="dentista-email"></span></p>
+            <p><strong>Telefone:</strong> <span id="dentista-telefone"></span></p>
+            <p><strong>Total de Pedidos:</strong> <span id="dentista-total-pedidos"></span></p>
+            <p><strong>Pedidos Abertos:</strong> <span id="dentista-pedidos-abertos"></span></p>
+            <p><strong>É Administrador?</strong> <span id="dentista-admin"></span></p>
+            <p><strong>É Credenciado?</strong> <span id="dentista-credenciado"></span></p>
+        </div>
+
+        <!-- Botões de Modificação -->
+        <h3>⚙️ Modificar Credenciais</h3>
+        <div class="modificar-credenciais" style="display: none;">
+            <button id="toggle-admin" class="btn">🔄 Alternar Admin</button>
+            <button id="toggle-credenciado" class="btn">🔄 Alternar Credenciamento</button>
+        </div>
+    </div>
+
+    <!-- --> <script src="detalhes_admin.js"></script><!-- -->
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Principal</title>
+
+ <style>
+ /* 🔥 Estilização específica para a tabela de dentistas */
+/* 🔥 Estilização específica para a tabela de dentistas */
+.container {
+    width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* ✅ Aplicando um azul mais harmonioso */
+.tabela-dentistas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ✅ Melhorando o cabeçalho */
+.tabela-dentistas thead tr {
+    background-color: #0056A6; /* Azul escuro */
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.tabela-dentistas th, 
+.tabela-dentistas td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* ✅ Alternância de cores para melhor legibilidade */
+.tabela-dentistas tbody tr:nth-child(even) {
+    background-color: #eef4fc; /* Azul bem claro */
+}
+
+.tabela-dentistas tbody tr:nth-child(odd) {
+    background-color: #ffffff; /* Fundo branco */
+}
+
+/* ✅ Hover discreto nas linhas */
+.tabela-dentistas tbody tr:hover {
+    background-color: #d4e4ff; /* Azul muito suave */
+    transition: 0.2s ease-in-out;
+}
+
+/* ✅ Ajustando botões para manter o mesmo tamanho */
+.tabela-dentistas .btn-detalhes,
+.tabela-dentistas .btn-admin,
+.tabela-dentistas .btn-remove {
+    display: inline-block;
+    width: 130px; /* Definindo largura fixa */
+    padding: 8px 0; /* Ajustando altura */
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* ✅ Ajustando botões para harmonia visual */
+.tabela-dentistas .btn-detalhes {
+    background: #007bff; /* Azul chamativo */
+    color: white;
+}
+
+.tabela-dentistas .btn-detalhes:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.tabela-dentistas .btn-admin {
+    background: #17a2b8; /* Azul claro */
+    color: white;
+}
+
+.tabela-dentistas .btn-admin:hover {
+    background: #117a8b;
+    transform: scale(1.05);
+}
+
+.tabela-dentistas .btn-remove {
+    background: #dc3545; /* Vermelho */
+    color: white;
+}
+
+.tabela-dentistas .btn-remove:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+/* ✅ Ajustando os botões de filtro e ordenação */
+.tabela-dentistas .filter-btn, 
+.tabela-dentistas .sort-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tabela-dentistas .filter-btn:hover, 
+.tabela-dentistas .sort-btn:hover {
+    background: #0056b3;
+}
+
+/* ✅ Ajustando o seletor de nome */
+.tabela-dentistas select {
+    padding: 6px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: white;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🛠 <strong>Gerenciamento de Dentistas</strong></h2>
+
+        <table class="tabela-dentistas">
+
+            <thead>
+                <tr>
+                    <th>
+                        ID <br>
+                        <button class="sort-btn" id="ordenar-id">🔼🔽</button>
+                    </th>
+                    <th>
+                        Nome (ID) <br>
+                        <select id="filtro-nome">
+                            <option value="">Todos</option>
+                        </select>
+                    </th>
+                                        <th>
+                        Detalhes <br>
+                    </th>
+                    <th>
+                        Admin <br>
+                        <button class="filter-btn filter-todos" id="filtro-admin">Todos</button>
+                    </th>
+                    <th>
+                        Verificado <br>
+                        <button class="filter-btn filter-todos" id="filtro-verificado">Todos</button>
+                    </th>
+                    <th>
+                        Pedidos Totais <br>
+                        <button class="sort-btn" id="ordenar-pedidos-totais">🔼🔽</button>
+                    </th>
+                    <th>
+                        Pedidos em Aberto <br>
+                        <button class="sort-btn" id="ordenar-pedidos-abertos">🔼🔽</button>
+                    </th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-admin">
+                <tr><td colspan="7">Carregando administradores...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+
+     
+    <script src="tabela_admin.js"></script>
+</body>
+</html>
+
+
+   

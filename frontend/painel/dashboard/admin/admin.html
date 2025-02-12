@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+/* HEADER - Cabeçalho Fixo */
+header {
+    width: 100%;
+    background: linear-gradient(to right, #0056b3, #007BFF);
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* Ajuste para evitar que o conteúdo fique escondido abaixo do header */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef2f7;
+    margin: 0;
+    padding-top: 70px; /* Garante espaço abaixo do header */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ajuste do conteúdo principal */
+main {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilização para garantir que as tabelas fiquem visíveis */
+.container {
+    background: white;
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    min-height: 180px;
+    overflow-x: auto; /* Permite rolagem horizontal para tabelas muito largas */
+}
+
+/* Responsividade: Ajusta a largura para telas menores */
+@media (max-width: 768px) {
+    main {
+        width: 95%;
+    }
+    .container {
+        min-height: 150px;
+    }
+}
+
+/* Estilização das Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+}
+
+/* Permite que tabelas muito grandes rolem sem esconder conteúdo */
+.tabela-container {
+    max-height: 500px; /* Altura máxima ajustável */
+    overflow-y: auto; /* Rolagem vertical se necessário */
+}
+
+
+    </style>
+</head>
+<body>
+
+
+    <main>
+        <!-- Pedidos em Aberto -->
+        <section id="pedidos-container" class="container">
+            <h2>📋 Pedidos em Aberto</h2>
+            <div id="pedidos-content">Carregando pedidos...</div>
+        </section>
+
+        <!-- Tabela Principal -->
+        <section id="tabela-container" class="container">
+            <h2>📊 Tabela de Dados</h2>
+            <div id="tabela-content">Carregando...</div>
+        </section>
+
+        <!-- Detalhes -->
+        <section id="detalhes-container" class="container">
+            <h2>🔍 Detalhes</h2>
+            <div id="detalhes-content">Selecione um pedido...</div>
+        </section>
+
+        <!-- Estatísticas -->
+        <section id="estatisticas-container" class="container">
+            <h2>📈 Estatísticas</h2>
+            <div id="estatisticas-content">Carregando estatísticas...</div>
+        </section>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

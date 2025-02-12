@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lista de Pedidos em Aberto</title>
+    </head>
+    <body>
+     
+            <h2>📋 Pedidos em Aberto</h2>
+            <table border="1" width="100%">
+                <thead>
+    <tr>
+        <th>
+            Dentista (ID) <br>
+            <select id="filtro-dentista">
+                <option value="">Todos</option>
+            </select>
+        </th>
+        <th>Paciente (ID)</th>
+        <th>
+            Data do Pagamento <br>
+            <select id="filtro-data">
+                <option value="todos">Todos</option>
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+            </select>
+        </th>
+        <th>
+            Status <br>
+            <select id="filtro-status">
+                <option value="">Todos</option>
+            </select>
+        </th>
+        <th>Ficha Técnica</th>
+        <th>Arquivo 3D</th>
+        <th>
+            Vídeo Conferência <br>
+            <select id="filtro-video">
+                <option value="">Todos</option>
+                <option value="true">✅ Sim</option>
+                <option value="false">❌ Não</option>
+            </select>
+        </th>
+    </tr>
+</thead>
+
+                <tbody id="pedidos-admin">
+                    <!-- Os pedidos serão carregados dinamicamente pelo JavaScript -->
+                </tbody>
+            </table>
+      
+
+        <!-- --> <script src="pedidos_admin.js"></script><!-- -->
+    </body>
+</html>

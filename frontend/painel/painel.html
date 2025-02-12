@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Amazon Align</title>
+    <link rel="stylesheet" href="painel.css">
+    <link rel="stylesheet" href="login/login.css"> <!-- Estilo do login -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo="> 
+</head>
+<body>
+    <header>
+        <h1 id="titulo">Bem-vindo!</h1>
+    </header>
+
+<main id="main-content">
+
+    </section>
+    <section id="login-container" class="container">
+        <h2>Login 1</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="E-mail">
+            <input type="password" id="senha" placeholder="Senha">
+            <button type="submit">Entrar</button>
+            <p id="error-message" class="error-message" style="display: none;">E-mail ou senha inválidos.</p>
+        </form>
+    </section>
+
+    <!-- Dashboard (inicialmente oculto) -->
+    <section id="dashboard-container" class="container" >
+        <h2>Dashboard 1</h2>
+        <p> painel! 1</p>
+    </section>
+</main>
+
+<script src="login/auth.js"></script>
+
+<script>
+        // Função para carregar o login real dinamicamente
+ async function carregarLogin() {
+    console.log("🔄 Carregando login...");
+
+    const response = await fetch("login/login.html");
+    const loginHtml = await response.text();
+
+    // Obtém o login-container para substituir apenas ele
+    const loginContainer = document.getElementById("login-container");
+
+    if (!loginContainer) {
+        console.error("❌ login-container não encontrado!");
+        return;
+    }
+
+    loginContainer.innerHTML = loginHtml; // 🔥 Substitui apenas o login-container
+
+    console.log("✅ Login carregado com sucesso!");
+
+    // 🔥 Agora que o login foi carregado, adicionamos os scripts necessários
+    const authScript = document.createElement("script");
+    authScript.src = "login/auth.js";
+    document.body.appendChild(authScript);
+
+    const loginScript = document.createElement("script");
+    loginScript.src = "login/login.js";
+    document.body.appendChild(loginScript);
+}
+
+// 🔥 Carregar login ao iniciar a página
+carregarLogin();
+
+    </script>
+
+    <script src="painel.js"></script>
+</html>

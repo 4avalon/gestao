@@ -1,0 +1,54 @@
+cd /d "C:\4Avalon\Projetos\gestao"
+
+REM Lista os arquivos apenas no diretório raiz do projeto
+Lista de Arquivos no Diretório Principal:
+backend.txt
+frontend.txt
+map.js
+tree.txt
+backend
+frontend
+
+REM Lista os arquivos na pasta frontend
+Lista de Arquivos na Pasta "frontend":
+└── painel
+    ├── dashboard
+    │   ├── admin
+    │   │   ├── admin.html
+    │   │   ├── admin.js
+    │   │   └── modules
+    │   │       ├── pedidos_admin.css
+    │   │       ├── pedidos_admin.html
+    │   │       └── pedidos_admin.js
+    │   └── dentista
+    │       ├── dentista.css
+    │       ├── dentista.html
+    │       └── dentista.js
+    ├── login
+    │   ├── auth.js
+    │   ├── login.css
+    │   ├── login.html
+    │   └── login.js
+    ├── painel.css
+    ├── painel.html
+    └── painel.js
+
+REM Lista os arquivos na pasta backend
+Lista de Arquivos na Pasta "backend":
+├── config
+│   └── db.js
+├── controllers
+│   ├── dentistaController.js
+│   ├── pacienteController.js
+│   └── pedidoController.js
+├── middlewares
+│   ├── auth.js
+│   ├── errorHandler.js
+│   └── validate.js
+├── routes
+│   ├── dentistas.js
+│   ├── pacientes.js
+│   └── pedidos.js
+├── server.js
+└── server2.mjs
+
