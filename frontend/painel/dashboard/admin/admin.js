@@ -35,13 +35,14 @@ async function carregarModulo(container, htmlPath, cssPath, scriptPath, nome, ca
         // 🔥 Carrega o JS do módulo DINAMICAMENTE e executa o callback após o carregamento
         const script = document.createElement("script");
         script.src = scriptPath;
+        script.type = "module";  // ✅ Adicionando suporte a módulos
         script.defer = true;
 
         script.onload = () => {
             console.log(`✅ JS do módulo ${nome} carregado!`);
             if (typeof callback === "function") {
                 console.log(`🚀 Executando callback para ${nome}...`);
-                callback();  // ✅ Aqui garantimos que os eventos são reatribuídos!
+                callback();
             }
         };
 
@@ -55,7 +56,40 @@ async function carregarModulo(container, htmlPath, cssPath, scriptPath, nome, ca
     }
 }
 
+// 🔥 Carregando módulos dinamicamente
 
+// 🔥 Primeiro, carregamos os filtros da tabela
+const isPainel = window.location.href.includes("painel");
+
+const caminhoFiltros = isPainel
+    ? "dashboard/admin/modules/tabela_admin_filtros.js" // Caminho no painel
+    : "modules/tabela_admin_filtros.js"; // Caminho normal fora do painel
+
+carregarModulo(
+    tabelaContainer, 
+    "dashboard/admin/modules/tabela_admin.html", 
+    "dashboard/admin/modules/tabela_admin.css", 
+    caminhoFiltros, // Agora usa o caminho correto dependendo do contexto
+    "tabela_admin_filtros",
+    () => {
+        console.log("🚀 Filtros da tabela carregados!");
+        
+        carregarModulo(
+            tabelaContainer, 
+            "dashboard/admin/modules/tabela_admin.html", 
+            "dashboard/admin/modules/tabela_admin.css", 
+            "dashboard/admin/modules/tabela_admin.js", 
+            "tabela_admin",
+            () => {
+                console.log("🚀 Inicializando funcionalidades da tabela...");
+
+            }
+        );
+    }
+);
+
+
+// 🔥 Carregando Detalhes
 carregarModulo(
     detalhesContainer, 
     "dashboard/admin/modules/detalhes_admin.html", 
@@ -64,52 +98,25 @@ carregarModulo(
     "detalhes_admin",
     () => {
         console.log("🚀 Inicializando funcionalidades de detalhes...");
-        carregarDentistasParaSelecao(); // 🔥 Carrega a lista de dentistas no <select>
+        
+        if (typeof carregarDentistasParaSelecao === "function") {
+            carregarDentistasParaSelecao();
+        } else {
+            console.error("❌ Função carregarDentistasParaSelecao não encontrada!");
+        }
 
-        // ✅ Garante que o botão "Carregar Detalhes" seja vinculado corretamente
         const botaoCarregar = document.getElementById("carregar-detalhes");
         if (botaoCarregar) {
-            botaoCarregar.addEventListener("click", carregarDetalhesDentista);
+            botaoCarregar.addEventListener("click", () => {
+                if (typeof carregarDetalhesDentista === "function") {
+                    carregarDetalhesDentista();
+                } else {
+                    console.error("❌ Função carregarDetalhesDentista não encontrada!");
+                }
+            });
             console.log("✅ Evento de clique vinculado ao botão 'Carregar Detalhes'");
         } else {
             console.error("❌ Botão 'Carregar Detalhes' não encontrado!");
         }
-    }
-);
-
-// 🔥 Carregando os módulos dinamicamente
-carregarModulo(
-    estatisticasContainer, 
-    "dashboard/admin/modules/estatisticas_admin.html", 
-    "dashboard/admin/modules/estatisticas_admin.css", 
-    "dashboard/admin/modules/estatisticas_admin.js", 
-    "estatisticas_admin",
-    () => {
-        console.log("🚀 Inicializando funcionalidades de estatísticas...");
-        carregarEstatisticas(); // Chamar a função correta para estatísticas
-    }
-);
-
-carregarModulo(
-    tabelaContainer, 
-    "dashboard/admin/modules/tabela_admin.html", 
-    "dashboard/admin/modules/tabela_admin.css", 
-    "dashboard/admin/modules/tabela_admin.js", 
-    "tabela_admin",
-    () => {
-        console.log("🚀 Inicializando funcionalidades da tabela...");
-        carregarTabelaAdmins(); // Chamar a função correta para carregar a tabela
-    }
-);
-
-carregarModulo(
-    pedidosContainer, 
-    "dashboard/admin/modules/pedidos_admin.html", 
-    "dashboard/admin/modules/pedidos_admin.css", 
-    "dashboard/admin/modules/pedidos_admin.js", 
-    "pedidos_admin",
-    () => {
-        console.log("🚀 Inicializando funcionalidades de pedidos...");
-        carregarPedidos(); // Chamar a função correta para carregar os pedidos
     }
 );

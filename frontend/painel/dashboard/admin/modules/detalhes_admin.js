@@ -38,7 +38,7 @@ async function carregarDentistasParaSelecao() {
         dentistas.forEach(dentista => {
             const option = document.createElement("option");
             option.value = dentista.id;
-            option.textContent = `${dentista.id} - ${dentista.nome}`;
+            option.textContent = ` ${dentista.id} - ${dentista.nome} `;
             select.appendChild(option);
         });
 
@@ -169,3 +169,5 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("❌ Botão 'Carregar Detalhes' não encontrado!");
     }
 });
+window.carregarDentistasParaSelecao = carregarDentistasParaSelecao;
+window.carregarDetalhesDentista = carregarDetalhesDentista;
